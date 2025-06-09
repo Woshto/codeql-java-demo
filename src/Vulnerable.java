@@ -1,4 +1,3 @@
-// src/Vulnerable.java
 import java.sql.*;
 import java.util.Scanner;
 
@@ -9,7 +8,13 @@ public class Vulnerable {
 
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
         Statement stmt = con.createStatement();
-        String query = "SELECT * FROM users WHERE name = '" + userInput + "'";
+        // Construção vulnerável da query
+        String query = "SELECT * FROM users WHERE name = '" + userInput + "'"; // SQL Injection aqui
+        System.out.println("Executando query: " + query); // Apenas para demonstração
         ResultSet rs = stmt.executeQuery(query);
+        
+        while (rs.next()) {
+            System.out.println(rs.getString("name"));
+        }
     }
 }
