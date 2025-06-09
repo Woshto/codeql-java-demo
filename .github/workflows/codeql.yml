@@ -14,6 +14,13 @@ jobs:
 
     permissions:
       security-events: write
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['java']
 
     steps:
       - name: Checkout repository
@@ -23,11 +30,12 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
+          queries: +security-extended
 
-      - name: Build Java manually
+      - name: Build Java
         run: |
           mkdir -p bin
           javac -d bin src/Vulnerable.java
 
-      - name: Run CodeQL Analysis
+      - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
