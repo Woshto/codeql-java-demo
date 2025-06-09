@@ -30,8 +30,8 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    - name: Build with javac
+      run: javac src/Vulnerable.java
 
     - name: Run CodeQL analysis
       uses: github/codeql-action/analyze@v2
