@@ -30,7 +30,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - name: Build with javac
+    - name: Build Java manually
       run: javac src/Vulnerable.java
 
     - name: Run CodeQL analysis
