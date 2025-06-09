@@ -1,32 +1,33 @@
-name: "CodeQL"
+name: "CodeQL Java Analysis"
 
 on:
   push:
+    branches: [ "main" ]
+  pull_request:
     branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
   analyze:
-    name: Analyze
+    name: Analyze Java
     runs-on: ubuntu-latest
+
     permissions:
       security-events: write
 
-    strategy:
-      matrix:
-        language: [ 'java' ]
-
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ['java']
 
-    - name: Compile manually
-      run: javac src/Vulnerable.java
+      - name: Build Java manually
+        run: |
+          mkdir -p bin
+          javac -d bin src/Vulnerable.java
 
-    - name: Run CodeQL analysis
-      uses: github/codeql-action/analyze@v2
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
